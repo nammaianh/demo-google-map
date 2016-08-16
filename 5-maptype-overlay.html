@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Custom Map Type - Overlay</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<h1 id="title">Custom Map Type - Overlay</h1>
+<div id="map-container"></div>
+<script src="app.js"></script>
+<script src="CoordMapType.js"></script>
+<script>
+    function initMap() {
+        var container = document.getElementById("map-container");
+        var map = new google.maps.Map(container, {
+            center: defaultProp.center,
+            zoom: defaultProp.zoom
+        });
+
+        var tileSize = new google.maps.Size(256, 256);
+        var coordMapType = new CoordMapType(tileSize);
+        map.overlayMapTypes.push(coordMapType);
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxT3FZ7bamuvbn0A0pNP2bOfMnu-cqmDQ&callback=initMap" async defer></script>
+</body>
+</html>

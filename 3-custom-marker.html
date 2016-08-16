@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Marker</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<h1 id="title">Custom Marker</h1>
+<div id="map-container"></div>
+<script src="app.js"></script>
+<script>
+    function initMap() {
+        var container = document.getElementById("map-container");
+        var map = new google.maps.Map(container, {
+            center: defaultProp.center,
+            zoom: defaultProp.zoom
+        });
+
+        //
+        var marker = new google.maps.Marker({
+            map: map,
+            position: defaultProp.positions.hoan_kiem_lake,
+            icon: {
+                url: defaultProp.icons.turtle,
+                scaledSize: new google.maps.Size(25, 25)
+            },
+            animation: google.maps.Animation.BOUNCE,
+            draggable: true
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+</body>
+</html>

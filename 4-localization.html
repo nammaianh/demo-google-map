@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Google Map Localization</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<h1 id="title">Google Map Localization</h1>
+<div id="map-container"></div>
+<script src="app.js"></script>
+<script>
+    function initMap() {
+        var container = document.getElementById("map-container");
+        var map = new google.maps.Map(container, {
+            zoom: defaultProp.zoom
+        });
+
+        /*
+         * Find the latitude and longitude of Hanoi city to set the map's center
+         */
+        var geocoder = new google.maps.Geocoder;
+        geocoder.geocode({
+            "address": "Thái Hà"
+        }, function(results, status) {
+            if (status === google.maps.GeocoderStatus.OK) {
+                var position = results[0].geometry.location;
+                map.setCenter(position);
+
+                // Put a marker at the center position
+                new google.maps.Marker({
+                    map: map,
+                    position: position
+                });
+            } else {
+                window.alert("Geocode was not successful for the following reason: " + status);
+            }
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBxT3FZ7bamuvbn0A0pNP2bOfMnu-cqmDQ&region=VN&callback=initMap" async defer></script>
+</body>
+</html>

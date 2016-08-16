@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Overlays 2</title>
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="MyBubbleOverlay.css">
+    <style>
+        #map-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black url("gears.svg") no-repeat center;
+        }
+    </style>
+</head>
+<body>
+
+<div id="map-container"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBxT3FZ7bamuvbn0A0pNP2bOfMnu-cqmDQ"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="MyBubbleOverlay.js"></script>
+<script src="app.js"></script>
+<script>
+    $(function () {
+
+        var xuCafePos       = defaultProp.positions.xu_cafe;
+        var centerPos       = new google.maps.LatLng(xuCafePos.lat, xuCafePos.lng);
+
+        var mapContainer = document.getElementById("map-container");
+        var map = new google.maps.Map(mapContainer, {
+            zoom: 14,
+            center: centerPos
+        });
+
+        // Remove the loading image when the map is loaded
+        google.maps.event.addListenerOnce(map, "idle", function() {
+            mapContainer.style.backgroundImage = "none";
+        });
+
+        // Put the custom overlay on the map
+        var overlay = new MyBubbleOverlay(map, centerPos, 5, "500k");
+
+        var hoanKiemLakePos = defaultProp.positions.hoan_kiem_lake;
+        var blurredOverlay = new MyBubbleOverlay(map, new google.maps.LatLng(hoanKiemLakePos.lat, hoanKiemLakePos.lng), 6, "10m", true);
+    });
+</script>
+</body>
+</html>

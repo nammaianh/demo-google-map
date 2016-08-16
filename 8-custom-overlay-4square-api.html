@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Custom Overlay - Multi-overlay with Foursquare Places API</title>
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="app.css">
+    <link rel="stylesheet" href="MyBubbleOverlay.css">
+</head>
+<body>
+
+<div id="map-container"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyBxT3FZ7bamuvbn0A0pNP2bOfMnu-cqmDQ"></script>
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="MyBubbleOverlay.js"></script>
+<script src="app.js"></script>
+<script>
+    function createMap(mapContainer, centerLatLng, zoomLvl) {
+        var map = new google.maps.Map(mapContainer, {
+            center  : centerLatLng,
+            zoom    : zoomLvl
+        });
+
+        // Set event for remove the loading icon after the first idle event
+        google.maps.event.addListenerOnce(map, "idle", function () {
+            mapContainer.style.backgroundImage = "none";
+        });
+
+        return map;
+    }
+
+    function getPlacesFrom4Square(latLng, query) {
+        var url          = "https://api.foursquare.com/v2/venues/search";
+        var clientId     = "UKXRMO0VH1IUHFQHWUQECXPG0DJOOBFIIYACAHOBLJWSY5LY";
+        var clientSecret = "1IJB4ZXUDF4CZVPLW3BNUNGDXHNLE5LZDICQJRTMI4GGVP4M";
+        var version      = 20130815;
+
+        var request = $.get(url, {
+            client_id       : clientId,
+            client_secret   : clientSecret,
+            v               : version,
+            ll              : latLng.lat() + "," + latLng.lng(),
+            query           : query
+        });
+
+        return request;
+    }
+
+    $(function () {
+        var xuCafePos   = defaultProp.positions.xu_cafe;
+        var centerCoord = new google.maps.LatLng(xuCafePos.lat, xuCafePos.lng);
+        var map         = createMap($("#map-container")[0], centerCoord, 14);
+
+        getPlacesFrom4Square(centerCoord, "nhà nghỉ")
+                .fail(function (a) {
+                    console.log(a);
+                    alert("Request to Foursquare API has failed.\nCheck console logs for more information.");
+                })
+                .done(function (data) {
+                    var places = data.response.venues;
+
+                    // Iterate through each place, and add overlay to the map
+                    places.forEach(function (place, index) {
+                        var coord = new google.maps.LatLng(place.location.lat, place.location.lng);
+                        var stars = place.stats.checkinsCount;
+                        var price = place.location.distance + " - " + index;
+
+                        new MyBubbleOverlay(map, coord, stars, price);
+                    });
+                });
+    });
+</script>
+
+</body>
+</html>

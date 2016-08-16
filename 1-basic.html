@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Basic Google Map</title>
+    <link rel="stylesheet" href="app.css">
+</head>
+<body>
+<h1 id="title">Basic Google Map</h1>
+<div id="map-container"></div>
+<script src="app.js"></script>
+<script>
+    function initMap() {
+        var container   = document.getElementById("map-container");
+        var map         = new google.maps.Map(container, {
+            center: defaultProp.center,
+            zoom: defaultProp.zoom
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+</body>
+</html>

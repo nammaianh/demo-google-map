@@ -1,0 +1,46 @@
+.bubble {
+    position: absolute;
+    transform: translate(-50%, calc(-1 * (100% + 10px)));
+    background-color: #EA4B88;
+    border-color: #EA4B88;
+    border-radius: 2px;
+}
+.bubble::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border: 10px solid transparent;
+    border-top-color: inherit;
+}
+.bubble.bubble-blurred {
+    opacity: 0.5;
+}
+
+.bubble-stars,
+.bubble-price {
+    margin: 2px;
+    text-align: center;
+}
+
+.bubble-stars {
+    color: #FDE94E;
+    font-size: 16px;
+    line-heigh: 16px;
+    /* Keep all the stars on the same line
+       when the browser is zoomed too much */
+    white-space: nowrap;
+}
+
+.bubble-price {
+    margin-top: -2px;
+    color: #FBDCE8;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.bubble-stars > .bubble-star:not(:first-child) {
+    margin-left: 5px;
+}
